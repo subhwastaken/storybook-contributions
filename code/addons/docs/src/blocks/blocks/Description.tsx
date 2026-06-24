@@ -96,6 +96,7 @@ const useServiceComponentDescription = (
 
 const DescriptionImpl: FC<DescriptionProps> = (props) => {
   const { of } = props;
+  const context = useContext(DocsContext);
 
   if ('of' in props && of === undefined) {
     throw new InvalidBlockOfPropError();
@@ -110,7 +111,7 @@ const DescriptionImpl: FC<DescriptionProps> = (props) => {
       : resolvedOf.type === 'meta'
         ? resolvedOf.preparedMeta.parameters
         : resolvedOf.projectAnnotations.parameters;
-  const lang = resolveDocsLang(parameters);
+  const lang = resolveDocsLang(parameters, context?.projectAnnotations?.parameters);
 
   return markdown ? (
     <div className="sbdocs-description" lang={lang}>
